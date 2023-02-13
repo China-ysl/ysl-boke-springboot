@@ -1,0 +1,34 @@
+#端口配置
+server:
+  port: 7777
+
+#数据库配置
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/acgn?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 5MB
+
+#mybatis-plus设置
+mybatis-plus:
+  configuration:
+    # 日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      id-type: auto
+
+#y七牛云oss配置
+oss:
+  accessKey: GDVHIEfmwhO8zqldEnmhKOXf6kFbnUxI6h6EBS24
+  secretKey: NcgLvqglk9sPOBDjeYM7hZhxsok-jOceXC1YuIIz
+  bucket: "yes-images"
+  domainName: "http://rpkojam9s.hn-bkt.clouddn.com/"

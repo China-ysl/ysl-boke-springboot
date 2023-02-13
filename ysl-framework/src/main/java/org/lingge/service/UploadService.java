@@ -1,0 +1,8 @@
+package org.lingge.service;
+
+import org.lingge.domain.ResponseResult;
+import org.springframework.web.multipart.MultipartFile;
+
+public interface UploadService {
+    ResponseResult uploadImg(MultipartFile img);
+}

@@ -49,11 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/logout").authenticated()
                 //拦截/user/userInfo的所有请求
                 .antMatchers("/user/userInfo").authenticated()
-                .antMatchers("/comment").authenticated()
-                .antMatchers("/upload").authenticated()
-                .antMatchers("/content/tag/list").authenticated()
-                //jwt过滤器测试用，如果测试没有问题吧这里删除了
-//                .antMatchers("/link/getAllLink").authenticated()
                 // 除上面外的所有请求全部不需要认证即可访问
                 .anyRequest().permitAll();
         //添加认证、授权失败处理器

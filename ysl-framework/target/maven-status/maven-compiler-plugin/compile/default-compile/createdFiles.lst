@@ -1,4 +1,5 @@
 org\lingge\service\impl\LoginServiceimpl.class
+org\lingge\service\MenuService.class
 org\lingge\service\impl\ArticleServiceimpl.class
 org\lingge\mapper\TagMapper.class
 org\lingge\handler\Security\AccessDeniedHandlerimpl.class
@@ -9,7 +10,9 @@ org\lingge\constants\SystemConstants.class
 org\lingge\service\impl\ClassifyServiceimpl.class
 META-INF\spring-configuration-metadata.json
 org\lingge\domain\vo\UserinfoVo.class
+org\lingge\domain\entity\Role.class
 org\lingge\service\impl\OssUploadService.class
+org\lingge\domain\entity\Menu.class
 org\lingge\service\UploadService.class
 org\lingge\service\impl\BlogLoginServiceimpl.class
 org\lingge\service\impl\TagServiceImpl.class
@@ -17,9 +20,11 @@ org\lingge\service\UserService.class
 org\lingge\utils\PathUtils.class
 org\lingge\config\FastJsonRedisSerializer.class
 org\lingge\utils\RedisCache.class
+org\lingge\domain\vo\AdminUserInofVo.class
 org\lingge\domain\entity\Link.class
 org\lingge\service\impl\LinkServiceimpl.class
 org\lingge\domain\vo\ArticleListVo.class
+org\lingge\service\RoleService.class
 org\lingge\domain\entity\Article.class
 org\lingge\config\MbatisPlusConfig.class
 org\lingge\mapper\ClassifyMapper.class
@@ -32,6 +37,7 @@ org\lingge\service\LinkService.class
 org\lingge\utils\WebUtils.class
 org\lingge\mapper\LinkMapper.class
 org\lingge\service\ArticleService.class
+org\lingge\service\impl\RoleServiceImpl.class
 org\lingge\domain\vo\HotArticleVo.class
 org\lingge\service\TagService.class
 org\lingge\handler\Security\AuthenticationEntryPointimpl.class
@@ -53,7 +59,10 @@ org\lingge\utils\BeanCopyUtils.class
 org\lingge\domain\entity\Tag.class
 org\lingge\mapper\CommentMapper.class
 org\lingge\domain\vo\PageVo.class
+org\lingge\mapper\MenuMapper.class
+org\lingge\mapper\RoleMapper.class
 org\lingge\service\ClassifyService.class
+org\lingge\service\impl\MenuServiceImpl.class
 org\lingge\domain\vo\CommentVo.class
 org\lingge\service\LoginService.class
 org\lingge\domain\entity\User.class

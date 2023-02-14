@@ -2,6 +2,10 @@ package org.lingge.constants;
 
 public class SystemConstants {
     /**
+     * admin
+     */
+    public static final  String ADMIN="admin";
+    /**
      * 状态
      * 0正常使用
      */
@@ -37,5 +41,11 @@ public class SystemConstants {
      * 评论类型getType
      */
     public static final int TYPE = -1;
+    /**
+     * C是菜单
+     * F是按钮
+     */
+    public static final String MENU_TYPE="C";
+    public static final String BUTTON="F";
 
 }

@@ -1,10 +1,11 @@
 package org.lingge.Controller;
-
 import org.lingge.annotation.SystemLog;
 import org.lingge.domain.ResponseResult;
 import org.lingge.domain.entity.LoginUser;
 import org.lingge.domain.entity.User;
 import org.lingge.domain.vo.AdminUserInofVo;
+import org.lingge.domain.vo.MenuVo;
+import org.lingge.domain.vo.RoutersVo;
 import org.lingge.domain.vo.UserinfoVo;
 import org.lingge.enums.AppHttpCodeEnum;
 import org.lingge.exception.SystemException;
@@ -16,7 +17,6 @@ import org.lingge.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -47,6 +47,7 @@ public class LoginController {
     }
 
     @GetMapping("getInfo")
+    @SystemLog(businessName = "权限接口")
     public ResponseResult<AdminUserInofVo> getInfo() {
         //查询当前登陆用户
         LoginUser loginUser = SecurityUtils.getLoginUser();
@@ -61,5 +62,15 @@ public class LoginController {
         //封装数据返回
         AdminUserInofVo adminUserInofVo = new AdminUserInofVo(perms, role,userinfoVo);
         return ResponseResult.okResult(adminUserInofVo);
+    }
+    @GetMapping("/getRouters")
+    @SystemLog(businessName = "菜单接口")
+    public ResponseResult<RoutersVo> getRouters(){
+        //查询当前登陆的用户id
+        Long userId = SecurityUtils.getUserId();
+        //查询menu 结果是tree的形式
+        List<MenuVo> routersVos= menuService.selectRoutersMenuTreeByUserId(userId);
+        //封装数据返回
+        return ResponseResult.okResult(new RoutersVo(routersVos));
     }
 }

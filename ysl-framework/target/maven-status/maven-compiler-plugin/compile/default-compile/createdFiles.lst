@@ -50,6 +50,7 @@ org\lingge\aspect\LoginAspect.class
 org\lingge\domain\ResponseResult.class
 org\lingge\service\impl\CommentServiceImpl.class
 org\lingge\domain\vo\BlogUserLoginVo.class
+org\lingge\domain\vo\MenuVo.class
 org\lingge\mapper\ArticleMapper.class
 org\lingge\domain\entity\LoginUser.class
 org\lingge\service\BlogLoginService.class
@@ -64,6 +65,7 @@ org\lingge\mapper\RoleMapper.class
 org\lingge\service\ClassifyService.class
 org\lingge\service\impl\MenuServiceImpl.class
 org\lingge\domain\vo\CommentVo.class
+org\lingge\domain\vo\RoutersVo.class
 org\lingge\service\LoginService.class
 org\lingge\domain\entity\User.class
 org\lingge\domain\entity\Comment.class

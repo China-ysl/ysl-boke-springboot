@@ -41,6 +41,7 @@ C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\ja
 C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\service\impl\MenuServiceImpl.java
 C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\service\ClassifyService.java
 C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\domain\vo\AdminUserInofVo.java
+C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\domain\vo\MenuVo.java
 C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\handler\mybatisplus\MyMetaObjectHandler.java
 C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\config\FastJsonRedisSerializer.java
 C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\service\UploadService.java
@@ -53,6 +54,7 @@ C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\ja
 C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\aspect\LoginAspect.java
 C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\service\impl\ArticleServiceimpl.java
 C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\service\impl\ClassifyServiceimpl.java
+C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\domain\vo\RoutersVo.java
 C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\domain\entity\LoginUser.java
 C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\service\RoleService.java
 C:\Users\Administrator\Desktop\git\ysl-boke-springboot\ysl-framework\src\main\java\org\lingge\service\MenuService.java

@@ -1,7 +1,14 @@
 package org.lingge.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.lingge.domain.ResponseResult;
+import org.lingge.domain.dto.PutTagDto;
+import org.lingge.domain.dto.TagListDto;
 import org.lingge.domain.entity.Tag;
+import org.lingge.domain.vo.PageVo;
+import org.lingge.domain.vo.TagVo;
+
+import java.util.List;
 
 
 /**
@@ -12,4 +19,11 @@ import org.lingge.domain.entity.Tag;
  */
 public interface TagService extends IService<Tag> {
 
+    ResponseResult<PageVo> pageTagList(Integer pageNum, Integer pageSize, TagListDto tagListDto);
+
+    ResponseResult<Tag> addTag(TagListDto tagListDto);
+
+    ResponseResult<Tag> getupdateTag(Long id);
+
+    List<TagVo> listAllTag();
 }

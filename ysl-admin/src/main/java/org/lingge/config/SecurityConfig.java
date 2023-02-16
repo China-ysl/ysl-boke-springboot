@@ -46,8 +46,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 对于登录接口 允许匿名访问
                 .antMatchers("/login").anonymous()
-                .antMatchers("/logout").authenticated()
-                //拦截/user/userInfo的所有请求
+                //拦截需要登录的所有请求
+                .antMatchers("/user/logout").authenticated()
+                .antMatchers("/getInfo").authenticated()
+                .antMatchers("/content/category/listAllCategory").authenticated()
+                .antMatchers("/content/tag/list").authenticated()
+                .antMatchers("/getRouters").authenticated()
                 .antMatchers("/user/userInfo").authenticated()
                 // 除上面外的所有请求全部不需要认证即可访问
                 .anyRequest().permitAll();
@@ -55,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler);
-
+        //关闭Security默认的注销功能
         http.logout().disable();
         //把jwtAuthenticationTokenFilter添加到SpringSecurity的过滤器链中
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);

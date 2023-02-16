@@ -32,6 +32,7 @@ org\lingge\domain\vo\ClassificationVo.class
 org\lingge\config\WebConfig.class
 org\lingge\utils\JwtUtil.class
 org\lingge\domain\vo\LinkVo.class
+org\lingge\domain\dto\TagListDto.class
 org\lingge\service\CommentService.class
 org\lingge\service\LinkService.class
 org\lingge\utils\WebUtils.class

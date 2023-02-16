@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MbatisPlusConfig {
-    /**Mbatis_Plus支持分页配置
+    /**Mybatis_Plus支持分页配置
      * 3.4.0之后版本
      * @return
      */

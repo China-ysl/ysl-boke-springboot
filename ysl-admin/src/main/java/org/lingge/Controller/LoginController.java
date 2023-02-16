@@ -30,7 +30,7 @@ public class LoginController {
     @Autowired
     private RoleService roleService;
 
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     @SystemLog(businessName = "用户登陆接口")
     public ResponseResult login(@RequestBody User user) {
         if (!StringUtils.hasText(user.getUserName())) {
@@ -40,8 +40,8 @@ public class LoginController {
         return loginService.login(user);
     }
 
-    @RequestMapping("/logout")
-    @SystemLog(businessName = "退出登陆接口")
+    @RequestMapping("/user/logout")
+    @SystemLog(businessName = "博客后台退出登陆接口")
     public ResponseResult logout() {
         return loginService.lonout();
     }

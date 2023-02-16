@@ -5,6 +5,7 @@ import org.lingge.constants.SystemConstants;
 import org.lingge.domain.ResponseResult;
 import org.lingge.domain.entity.Article;
 import org.lingge.domain.entity.Classify;
+import org.lingge.domain.vo.CategoryVo;
 import org.lingge.domain.vo.ClassificationVo;
 import org.lingge.mapper.ClassifyMapper;
 import org.lingge.service.ArticleService;
@@ -30,7 +31,6 @@ public class ClassifyServiceimpl extends ServiceImpl<ClassifyMapper, Classify> i
     private ArticleService articleService;
     @Override
     public ResponseResult queryClassificationList() {
-
         LambdaQueryWrapper<Article> articlewrapper = new LambdaQueryWrapper<>();
         articlewrapper.eq(Article::getStatus,SystemConstants.ARTICLE_STATUS_NORMAL);
         //查询文章表必须是已发布的
@@ -49,5 +49,15 @@ public class ClassifyServiceimpl extends ServiceImpl<ClassifyMapper, Classify> i
         List<ClassificationVo> classificationVos = BeanCopyUtils.copyList(list, ClassificationVo.class);
 
         return ResponseResult.okResult(classificationVos);
+    }
+
+    @Override
+    public List<CategoryVo> listAllCategory() {
+        //查询分类为正常使用状态的所有分类
+        LambdaQueryWrapper<Classify> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Classify::getStatus,SystemConstants.NORMAL_USE);
+        List<Classify> list = list(queryWrapper);
+        List<CategoryVo> categoryVos = BeanCopyUtils.copyList(list, CategoryVo.class);
+        return categoryVos;
     }
 }

@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.lingge.constants.SystemConstants;
 import org.lingge.domain.ResponseResult;
+import org.lingge.domain.dto.AddArticleDto;
 import org.lingge.domain.entity.Article;
+import org.lingge.domain.entity.ArticleTag;
 import org.lingge.domain.entity.Classify;
 import org.lingge.domain.vo.ArticleDetailVo;
 import org.lingge.domain.vo.ArticleListVo;
@@ -13,8 +15,10 @@ import org.lingge.domain.vo.HotArticleVo;
 import org.lingge.domain.vo.PageVo;
 import org.lingge.mapper.ArticleMapper;
 import org.lingge.service.ArticleService;
+import org.lingge.service.ArticleTagService;
 import org.lingge.service.ClassifyService;
 import org.lingge.utils.BeanCopyUtils;
+import org.lingge.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +30,12 @@ import java.util.stream.Collectors;
 public class ArticleServiceimpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
     @Autowired
     private ClassifyService classifyService ;
+
+    @Autowired
+    private ArticleTagService articleTagService;
+
+    @Autowired
+    private RedisCache redisCache;
     @Override
     public ResponseResult hotArticleList() {
         //查询热门文章，封装成ResponseResult格式返回
@@ -41,21 +51,6 @@ public class ArticleServiceimpl extends ServiceImpl<ArticleMapper, Article> impl
         List<Article> articles = page.getRecords();
         //工具类bean拷贝方法
         List<HotArticleVo> vos = BeanCopyUtils.copyList(articles, HotArticleVo.class);
-
-//        //bean 拷贝 拷贝字段 不使用工具类bean拷贝方法
-//        // private Long id;
-//        //    //标题
-//        //    private String title;
-//        //    //访问量
-//        //    private Long viewCount;
-//       List<HotArticleVo> articleVos = new ArrayList<>();
-//        for (Article article : articles){
-//            HotArticleVo vo = new HotArticleVo();
-//            //使用springframework.beans.BeanUtils下的
-//            // copyProperties方法将查出来的article 循环放入vo中
-//            BeanUtils.copyProperties(article,vo);
-//            articleVos.add(vo);
-//        }
         //将拿到的数据封装到统一的ResponseResult格式中并返回
         return ResponseResult.okResult(vos);
     }
@@ -79,7 +74,6 @@ public class ArticleServiceimpl extends ServiceImpl<ArticleMapper, Article> impl
         articles.stream()
                 .map(article-> article.setCategoryName(classifyService.getById(article.getCategoryId()).getName()))
                 .collect(Collectors.toList());
-
         //封装vo
         List<ArticleListVo> vos = BeanCopyUtils.copyList(page.getRecords(), ArticleListVo.class);
         PageVo pageVo = new PageVo(vos, page.getTotal());
@@ -100,6 +94,27 @@ public class ArticleServiceimpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         //封装成统一响应格式
         return ResponseResult.okResult(detailVo);
+    }
+
+    @Override
+    public ResponseResult<Article> add(AddArticleDto articleDto) {
+        //添加 博客
+        Article article = BeanCopyUtils.copyBean(articleDto, Article.class);
+        save(article);
+        List<ArticleTag> articleTags = articleDto.getTags().stream()
+                .map(tagId -> new ArticleTag(article.getId(), tagId))
+                .collect(Collectors.toList());
+
+        //添加 博客和标签的关联
+        articleTagService.saveBatch(articleTags);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult updateViewCount(Long id) {
+        //更新redis中对应 id的浏览量
+        redisCache.incrementCacheMapValue(SystemConstants.ARTICLE_VIEWCOUNT,id.toString(),1);
+        return ResponseResult.okResult();
     }
 
 }

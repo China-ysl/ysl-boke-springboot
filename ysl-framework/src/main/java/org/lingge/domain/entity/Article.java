@@ -2,6 +2,7 @@ package org.lingge.domain.entity;
 
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -20,7 +21,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @TableName("ysl_article")
-@SuppressWarnings("serial")//去除安全提示
 @NoArgsConstructor//空参构造
 @AllArgsConstructor//有参构造
 @ToString
@@ -54,17 +54,22 @@ public class Article{
     private Long viewCount;
     //是否允许评论 1是 0 否
     private String isComment;
-    
+    @TableField(fill = FieldFill.INSERT)
     private Long createBy;
+    @TableField(fill = FieldFill.INSERT)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-    
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateBy;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
     //删除标志 0未删除 1删除
     private Integer delFlag;
 
-
+    public Article(Long id, long viewCount) {
+        this.id = id;
+        this.viewCount = viewCount ;
     }
+}
 

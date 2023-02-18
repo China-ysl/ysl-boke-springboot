@@ -1,5 +1,6 @@
 package org.lingge.runner;
 
+
 import org.lingge.constants.SystemConstants;
 import org.lingge.domain.entity.Article;
 import org.lingge.mapper.ArticleMapper;
@@ -10,16 +11,17 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
-public class initrunner implements CommandLineRunner {
+public class ViewCountRunner implements CommandLineRunner {
 
     @Autowired
     private ArticleMapper articleMapper;
+
     @Autowired
     private RedisCache redisCache;
+
     @Override
     public void run(String... args) throws Exception {
         //注入articleMapper查询article所有的值
@@ -30,8 +32,5 @@ public class initrunner implements CommandLineRunner {
         }));
         redisCache.setCacheMap(SystemConstants.ARTICLE_VIEWCOUNT,viewCount);
         System.out.println("博客后端初始化完成");
-
-
-
     }
 }

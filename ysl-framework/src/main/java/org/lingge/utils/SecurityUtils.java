@@ -12,8 +12,7 @@ public class SecurityUtils
      **/
     public static LoginUser getLoginUser()
     {
-        LoginUser loginUser=(LoginUser) getAuthentication().getPrincipal();
-        return loginUser;
+        return (LoginUser) getAuthentication().getPrincipal();
     }
 
     /**

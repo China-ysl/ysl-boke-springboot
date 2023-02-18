@@ -2,16 +2,10 @@ package org.lingge.Controller;
 
 import org.lingge.annotation.SystemLog;
 import org.lingge.domain.ResponseResult;
-import org.lingge.domain.entity.Article;
 import org.lingge.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RequestMapping("/article")
 @RestController
@@ -20,7 +14,7 @@ public class ArticleController {
     protected ArticleService articleService;
     /**
      * 查询热门文章，封装成ResponseResult格式返回
-     * @return
+     * @return hotArticleList
      */
     @SystemLog(businessName = "查询热门文章接口")
     @GetMapping("/hotarticleList")
@@ -38,5 +32,12 @@ public class ArticleController {
     @GetMapping("/{id}")
     public ResponseResult getArticleDetail(@PathVariable("id") Long id){
         return articleService.getArticleDetail(id);
+    }
+
+
+    //
+    @PutMapping("/updateViewCount/{id}")
+    public ResponseResult updateViewCount(@PathVariable("id") Long id){
+        return articleService.updateViewCount(id);
     }
 }

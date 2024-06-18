@@ -1,4 +1,5 @@
 package org.lingge.service.impl;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.lingge.constants.SystemConstants;
@@ -10,6 +11,8 @@ import org.lingge.utils.BeanCopyUtils;
 import org.lingge.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,6 +65,30 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
 
         return menuTree;
+    }
+
+    @Override
+    public List<Menu> selectMenuList(Menu menu) {
+        LambdaQueryWrapper<Menu> queryWrapper = new LambdaQueryWrapper<>();
+        //menuName模糊查询
+        queryWrapper.like(StringUtils.hasText(menu.getMenuName()),Menu::getMenuName,menu.getMenuName());
+        queryWrapper.eq(StringUtils.hasText(menu.getStatus()),Menu::getStatus,menu.getStatus());
+        //排序 parent_id和order_num
+        queryWrapper.orderByAsc(Menu::getParentId,Menu::getOrderNum);
+        List<Menu> menus = list(queryWrapper);;
+        return menus;
+    }
+
+    @Override
+    public boolean hasChild(Long menuId) {
+        LambdaQueryWrapper<Menu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Menu::getParentId,menuId);
+        return count(queryWrapper) != 0;
+    }
+
+    @Override
+    public List<Long> selectMenuListByRoleId(Long roleId) {
+        return getBaseMapper().selectMenuListByRoleId(roleId);
     }
 
     private List<MenuVo> buiderMenuTerr(List<MenuVo> menus, long parentid) {

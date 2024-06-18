@@ -39,7 +39,7 @@ public class UpdateViewCountJob {
             updateWrapper.eq(Article::getId, article.getId());
             updateWrapper.set(Article::getViewCount, article.getViewCount());
             articleService.update(updateWrapper);
-            System.out.println("============================浏览量更新成功=====================================");
         }
+        System.out.println("============================浏览量更新成功=====================================");
     }
 }

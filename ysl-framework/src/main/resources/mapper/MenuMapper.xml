@@ -26,6 +26,8 @@
             m.`menu_type` IN ('C','M') AND
             m.`status` = 0 AND
             m.`del_flag` =0
+        ORDER BY
+            m.parent_id,m.order_num
     </select>
     <select id="selectRoutersMenuTreeByUserId" resultType="org.lingge.domain.entity.Menu">
         SELECT
@@ -40,5 +42,14 @@
             m.`menu_type` IN ('C','M') AND
             m.`status` = 0 AND
             m.`del_flag` =0
+    </select>
+    <select id="selectMenuListByRoleId" resultType="java.lang.Long">
+        select m.id
+        from sys_menu m
+                 left join sys_role_menu rm on m.id = rm.menu_id
+        where rm.role_id = #{roleId}
+
+
+        order by m.parent_id, m.order_num
     </select>
 </mapper>

@@ -1,24 +1,32 @@
 package org.lingge.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.Update;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.lingge.domain.ResponseResult;
 import org.lingge.domain.entity.User;
+import org.lingge.domain.entity.UserRole;
+import org.lingge.domain.vo.PageVo;
+import org.lingge.domain.vo.UserVo;
 import org.lingge.domain.vo.UserinfoVo;
 import org.lingge.enums.AppHttpCodeEnum;
 import org.lingge.exception.SystemException;
 import org.lingge.mapper.UserMapper;
+import org.lingge.service.UserRoleService;
 import org.lingge.service.UserService;
 import org.lingge.utils.BeanCopyUtils;
 import org.lingge.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户表(User)表服务实现类
@@ -28,7 +36,11 @@ import org.springframework.util.StringUtils;
  */
 @Service("userService")
 public class  UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserRoleService userRoleService;
     @Override
     public ResponseResult userinfo() {
         //调用工具类SecurityUtils获取当前用户id
@@ -52,9 +64,6 @@ public class  UserServiceImpl extends ServiceImpl<UserMapper, User> implements U
         update(userUpdateWrapper);
         return ResponseResult.okResult();
     }
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
     @Override
     public ResponseResult register(User user) {
         //对数据进行非空判断 null 或 ""
@@ -95,6 +104,68 @@ public class  UserServiceImpl extends ServiceImpl<UserMapper, User> implements U
         save(user);
         return ResponseResult.okResult();}
 
+    @Override
+    public ResponseResult selectUserPage(User user, Integer pageNum, Integer pageSize) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.like(StringUtils.hasText(user.getUserName()),User::getUserName,user.getUserName());
+        queryWrapper.eq(StringUtils.hasText(user.getStatus()),User::getStatus,user.getStatus());
+        queryWrapper.eq(StringUtils.hasText(user.getPhonenumber()),User::getPhonenumber,user.getPhonenumber());
+        Page<User> page = new Page<>();
+        page.setCurrent(pageNum);
+        page.setSize(pageSize);
+        page(page,queryWrapper);
+
+        //转换成VO
+        List<User> users = page.getRecords();
+        List<UserVo> userVoList = users.stream()
+                .map(u -> BeanCopyUtils.copyBean(u, UserVo.class))
+                .collect(Collectors.toList());
+        PageVo pageVo = new PageVo();
+        pageVo.setTotal(page.getTotal());
+        pageVo.setRows(userVoList);
+        return ResponseResult.okResult(pageVo);
+    }
+
+    @Override
+    public boolean checkUserNameUnique(String userName) {
+        return count(Wrappers.<User>lambdaQuery().eq(User::getUserName,userName))==0;
+    }
+
+    @Override
+    public boolean checkPhoneUnique(User user) {
+        return count(Wrappers.<User>lambdaQuery().eq(User::getPhonenumber,user.getPhonenumber()))==0;
+    }
+
+    @Override
+    public boolean checkEmailUnique(User user) {
+        return count(Wrappers.<User>lambdaQuery().eq(User::getEmail,user.getEmail()))==0;
+    }
+
+    @Override
+    @Transactional
+    public ResponseResult addUser(User user) {
+        //密码加密处理
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        save(user);
+
+        if(user.getRoleIds()!=null&&user.getRoleIds().length>0){
+            insertUserRole(user);
+        }
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult updateUser(User user) {
+        updateById(user);
+        return ResponseResult.okResult();
+    }
+
+    private void insertUserRole(User user) {
+        List<UserRole> sysUserRoles = Arrays.stream(user.getRoleIds())
+                .map(roleId -> new UserRole(user.getId(), roleId)).collect(Collectors.toList());
+        userRoleService.saveBatch(sysUserRoles);
+    }
+
     private boolean EmailNameExist(String email) {
 //        邮箱是否存在
         LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
@@ -115,4 +186,6 @@ public class  UserServiceImpl extends ServiceImpl<UserMapper, User> implements U
         updateWrapper.eq(User::getUserName, userName);
         return count(updateWrapper) > 0;
     }
+
+
 }

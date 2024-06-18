@@ -1,20 +1,26 @@
 package org.lingge.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.lingge.constants.SystemConstants;
 import org.lingge.domain.ResponseResult;
 import org.lingge.domain.entity.Article;
 import org.lingge.domain.entity.Classify;
+import org.lingge.domain.entity.Role;
 import org.lingge.domain.vo.CategoryVo;
 import org.lingge.domain.vo.ClassificationVo;
+import org.lingge.domain.vo.PageVo;
 import org.lingge.mapper.ClassifyMapper;
 import org.lingge.service.ArticleService;
 import org.lingge.service.ClassifyService;
 import org.lingge.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,6 +33,7 @@ import java.util.stream.Collectors;
 @Service("classifyService")
 public class ClassifyServiceimpl extends ServiceImpl<ClassifyMapper, Classify> implements ClassifyService {
 
+    @Lazy
     @Autowired
     private ArticleService articleService;
     @Override
@@ -59,5 +66,24 @@ public class ClassifyServiceimpl extends ServiceImpl<ClassifyMapper, Classify> i
         List<Classify> list = list(queryWrapper);
         List<CategoryVo> categoryVos = BeanCopyUtils.copyList(list, CategoryVo.class);
         return categoryVos;
+    }
+
+    @Override
+    public PageVo selectCategoryPage(Classify classify, Integer pageNum, Integer pageSize) {
+        LambdaQueryWrapper<Classify> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.hasText(classify.getName()),Classify::getName,classify.getName());
+        queryWrapper.eq(Objects.nonNull(classify.getStatus()),Classify::getStatus, classify.getStatus());
+        Page<Classify> page = new Page<>();
+        page.setCurrent(pageNum);
+        page.setSize(pageSize);
+        page(page,queryWrapper);
+        //转换成vo
+        List<Classify> roles = page.getRecords();
+
+        PageVo pageVo = new PageVo();
+        pageVo.setTotal(page.getTotal());
+        pageVo.setRows(roles);
+        return pageVo;
+
     }
 }

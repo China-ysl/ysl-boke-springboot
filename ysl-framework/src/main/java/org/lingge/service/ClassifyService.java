@@ -3,6 +3,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.lingge.domain.ResponseResult;
 import org.lingge.domain.entity.Classify;
 import org.lingge.domain.vo.CategoryVo;
+import org.lingge.domain.vo.PageVo;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface ClassifyService extends IService<Classify> {
     ResponseResult queryClassificationList();
 
     List<CategoryVo> listAllCategory();
+
+    PageVo selectCategoryPage(Classify classify, Integer pageNum, Integer pageSize);
 }

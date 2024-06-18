@@ -4,6 +4,8 @@ server:
 
 #数据库配置
 spring:
+  main:
+    allow-circular-references: true
   datasource:
     url: jdbc:mysql://localhost:3306/acgn?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
@@ -32,3 +34,4 @@ oss:
   secretKey: NcgLvqglk9sPOBDjeYM7hZhxsok-jOceXC1YuIIz
   bucket: "yes-images"
   domainName: "http://rpkojam9s.hn-bkt.clouddn.com/"
+

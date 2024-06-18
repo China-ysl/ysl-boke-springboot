@@ -48,4 +48,5 @@ public class SystemConstants {
     public static final String MENU_TYPE="C";
     public static final String BUTTON="F";
 
+    public static final String NORMAL = "0";
 }

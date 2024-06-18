@@ -1,6 +1,8 @@
 package org.lingge.domain.entity;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,11 +35,14 @@ public class Classify  {
     private Long createBy;
     //文章创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
     //文章更新人id
+    @TableField(fill = FieldFill.UPDATE)
     private Long updateBy;
     //文章更新时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
     //删除标志 0未删除 1删除
     private Integer delFlag;

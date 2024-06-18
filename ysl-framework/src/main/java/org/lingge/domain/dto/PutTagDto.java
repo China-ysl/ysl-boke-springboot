@@ -12,6 +12,5 @@ import lombok.ToString;
 public class PutTagDto {
     private Long id;
     private String name;
-
     private String remark;
 }

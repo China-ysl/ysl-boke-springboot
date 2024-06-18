@@ -2,6 +2,7 @@ package org.lingge;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootVersion;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -14,5 +15,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class LinggeBlog {
     public static void main(String[] args) {
         SpringApplication.run(LinggeBlog.class,args);
+        System.out.println("=====================博客后端前台启动成功！====================");
     }
 }

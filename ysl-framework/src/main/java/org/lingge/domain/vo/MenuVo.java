@@ -4,19 +4,24 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
 import java.util.List;
 
+/**
+ * 菜单权限表(Menu)表实体类
+ *
+ * @author makejava
+ * @since 2022-08-09 23:47:50
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@Accessors(chain = true)//链式编程注解
+@Accessors(chain = true)
 public class MenuVo {
+    //菜单ID
     private Long id;
+
     //菜单名称
     private String menuName;
     //父菜单ID
@@ -35,10 +40,14 @@ public class MenuVo {
     private String visible;
     //菜单状态（0正常 1停用）
     private String status;
+    //权限标识
+    private String perms;
     //菜单图标
     private String icon;
-    //创建时间
-    private Date createTime;
+
+    //备注
+    private String remark;
+
     @TableField(exist = false)
     private List<MenuVo> children;
 }

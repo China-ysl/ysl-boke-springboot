@@ -36,9 +36,10 @@ public class TagController {
     public ResponseResult<Tag> addTag(@RequestBody TagListDto tagListDto){
         return tagService.addTag(tagListDto);
     }
+
     @GetMapping(value = "/{id}")
     @SystemLog(businessName = "根据id查询标签接口")
-    public ResponseResult<Tag> getupdateTag(@PathVariable(value = "id") Long id){
+    public ResponseResult<Tag> getInfo(@PathVariable(value = "id") Long id){
         return tagService.getupdateTag(id);
     }
     @PutMapping

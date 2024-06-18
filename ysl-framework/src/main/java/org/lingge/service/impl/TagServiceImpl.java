@@ -12,6 +12,7 @@ import org.lingge.mapper.TagMapper;
 import org.lingge.service.TagService;
 import org.lingge.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -26,6 +27,7 @@ import java.util.List;
 @Service("tagService")
 public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
 
+    @Lazy
     @Autowired
     private TagService tagService;
 
